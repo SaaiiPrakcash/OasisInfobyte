@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>To-Do App</h1>
+
+    <h2>Add a Task</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button onclick="addTask()">Add</button>
+
+    <h2>Pending Tasks</h2>
+    <ul id="pendingTasks">
+        <!-- Pending tasks will be displayed here -->
+    </ul>
+
+    <h2>Completed Tasks</h2>
+    <ul id="completedTasks">
+        <!-- Completed tasks will be displayed here -->
+    </ul>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const pendingTasksList = document.getElementById('pendingTasks');
+        const completedTasksList = document.getElementById('completedTasks');
+
+        function addTask() {
+            const taskText = taskInput.value.trim();
+            if (taskText !== '') {
+                const taskItem = document.createElement('li');
+                taskItem.textContent = taskText;
+
+                // Add buttons for marking as complete, editing, and deleting tasks
+                const completeButton = document.createElement('button');
+                completeButton.textContent = 'Complete';
+                completeButton.onclick = completeTask;
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.onclick = editTask;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = deleteTask;
+
+                taskItem.appendChild(completeButton);
+                taskItem.appendChild(editButton);
+                taskItem.appendChild(deleteButton);
+
+                pendingTasksList.appendChild(taskItem);
+
+                taskInput.value = '';
+            }
+        }
+
+        function completeTask() {
+            const taskItem = this.parentElement;
+            taskItem.removeChild(taskItem.childNodes[0]); // Remove the complete button
+            completedTasksList.appendChild(taskItem);
+        }
+
+        function editTask() {
+            const taskItem = this.parentElement;
+            const taskText = taskItem.firstChild.textContent;
+
+            const updatedTaskText = prompt('Edit task:', taskText);
+            if (updatedTaskText !== null && updatedTaskText.trim() !== '') {
+                taskItem.firstChild.textContent = updatedTaskText;
+            }
+        }
+
+        function deleteTask() {
+            const taskItem = this.parentElement;
+            taskItem.remove();
+        }
+    </script>
+</body>
+</html>
